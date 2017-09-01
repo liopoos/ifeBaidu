@@ -1,0 +1,138 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 04</title>
+    <style>
+        #box_queen {
+            margin-top: 5px;
+            height: 300px;
+            position: relative;
+            width: 100%;
+        }
+
+        .box {
+            width: 10px;
+            background: red;
+            cursor: hand;
+            position: absolute;
+            bottom: 0px;
+            float: left;
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <input type="text" id="num">
+    <button id="unshift">左侧入</button>
+    <button id="push">右侧入</button>
+    <button id="shift">左侧出</button>
+    <button id="pop">右侧出</button>
+</div>
+<button id="sort">排序</button>
+<div id="box_queen">
+
+</div>
+
+<script type="text/javascript">
+    (function () {
+        var queen = Array();
+        var box_queen = document.getElementById('box_queen');
+        var unshift = document.getElementById('unshift');
+        var push = document.getElementById('push');
+        var shift = document.getElementById('shift');
+        var pop = document.getElementById('pop');
+
+        unshift.onclick = function () {
+            var num = document.getElementById('num');
+            if (isBig(num.value)) {
+                if (isNum(num.value)) {
+                    queen.unshift(num.value);
+                    refresh(queen);
+                } else {
+                    alert("只能输入数字！");
+                }
+            } else {
+                alert("只能输入10-100之间的数字！");
+            }
+
+        };
+        push.onclick = function () {
+            var num = document.getElementById('num');
+            if (isBig(num.value)) {
+                if (isNum(num.value)) {
+                    queen.push(num.value);
+                    refresh(queen);
+                } else {
+                    alert("只能输入数字！");
+                }
+            } else {
+                alert("只能输入10-100之间的数字！");
+            }
+
+        };
+        shift.onclick = function () {
+            alert("删除的元素：" + queen.shift());
+            refresh(queen);
+        };
+        pop.onclick = function () {
+            alert("删除的元素：" + queen.pop());
+            refresh(queen);
+        };
+        var btn = document.getElementById('sort');
+        btn.onclick = function () {
+            sortNum(queen);
+        }
+    })();
+    //刷新队列列表
+    var refresh = function (queen) {
+        var box_queen = document.getElementById('box_queen');
+        var str = '';
+        for (let i = 0; i < queen.length; i++) {
+            str += '<div class="box" style="height: ' + queen[i] + '%;left: ' + i * 15 + 'px;"></div>';
+        }
+        box_queen.innerHTML = str;
+        choose(queen);
+
+    };
+    //排序
+    var sortNum = function (queen) {
+        queen.sort();
+        refresh(queen);
+    };
+    //判断哪个div被选中
+    function choose(queen) {
+        var div = document.getElementsByClassName('box');
+        for (let i = 0; i < div.length; i++) {
+            div[i].onclick = function () {
+                del(queen, i);
+            }
+        }
+
+    }
+    //删除数字
+    function del(queen, i) {
+        alert("删除的元素：" + queen[i]);
+        queen.splice(i, 1);
+        refresh(queen);
+    }
+    //判断是否是数字
+    function isNum(num) {
+        if (isNaN(num)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    //判断数字是否规范
+    function isBig(num) {
+        if (num >= 10 && num <= 100) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+</body>
+</html>
